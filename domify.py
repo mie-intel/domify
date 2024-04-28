@@ -4,17 +4,13 @@ import shutil
 import glob
 from colorama import Fore, Back, Style
 
-"""
-Parameters
-"""
-
-# Problem data contain all data about the problem
-
 path = ""
 package_path = "package"
 required_file = ["runner", "solution", "tc"]
 sample_testcases = []
 testcases = []
+
+# Problem data contain all data about the problem
 
 problem_data = {
     "name": "default",
@@ -84,9 +80,7 @@ def checkAvailability():
         new_name = '_'.join(map(str, new_name))
         old_name = '_'.join(map(str, old_name))
 
-        if is_out:
-            os.rename(os.path.join(path, "tc", old_name), os.path.join(path, "tc", new_name))
-            pass
+        is_out and os.rename(os.path.join(path, "tc", old_name), os.path.join(path, "tc", new_name))
         
         if is_sample:
             sample_testcases.append(new_name)
@@ -146,8 +140,8 @@ def createIniFile():
     text = text + add_argument("memorylimit")
     text = text + add_argument("color")
     
-    with open(os.path.join(package_path, "domjudge-problem.ini"), "w") as domjudgeini:
-        domjudgeini.write(text)
+    with open(os.path.join(package_path, "domjudge-problem.ini"), "w") as file:
+        file.write(text)
 
     fileCreatedMessage("domjudge-problem.ini")
     print("=====================")
@@ -171,8 +165,8 @@ def createProblemYaml():
     
     text = text + add_argument("name")
     
-    with open(os.path.join(package_path, "problem.yaml"), "w") as domjudgeini:
-        domjudgeini.write(text)
+    with open(os.path.join(package_path, "problem.yaml"), "w") as file:
+        file.write(text)
     
     fileCreatedMessage("problem.yaml")
     print("=====================")
