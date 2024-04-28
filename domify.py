@@ -1,7 +1,6 @@
 import sys
 import os
 import shutil
-import glob
 from colorama import Fore, Back, Style
 
 path = ""
@@ -47,6 +46,7 @@ def checkAvailability():
         if splitter_item in sys.argv[1]:
             splitter = splitter_item
             break
+    
     path_argument = sys.argv[1].split(splitter)
     path = os.getcwd()
     for item in path_argument:
