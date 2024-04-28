@@ -25,13 +25,14 @@ But DOMJudge's problem package directories structure will be like this
 ```
 <folder-name>/
     data/
-        sample
+        sample/
             file-sample_1.in
             file-sample_1.ans
             ...
             file-sample-x.in
             file-sample-x.ans
-        secret
+
+        secret/
             file_1.in
             file_1.ans
             ...
