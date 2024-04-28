@@ -26,18 +26,18 @@ But DOMJudge's problem package directories structure will be like this
 <folder-name>/
     data/
         sample/
-            file-sample_1.in
-            file-sample_1.ans
+            testcase_sample_1.in
+            testcase_sample_1.ans
             ...
-            file-sample-x.in
-            file-sample-x.ans
+            testcase_sample_x.in
+            testcase_sample_x.ans
 
         secret/
-            file_1.in
-            file_1.ans
+            testcase_1.in
+            testcase_1.ans
             ...
-            file_x.in
-            file_x.ans
+            testcase_x.in
+            testcase_x.ans
 
     domjudge-problem.ini
     problem.yaml
