@@ -43,7 +43,7 @@ But DOMJudge's problem package directories structure will be like this
     problem.pdf (.md or else)
 ```
 
-Which I found out exhausting to construct the domjudge problem package.
+Which I found out exhausting to construct the domjudge problem package by hand.
 
 So I create the script to aid my works.
 
