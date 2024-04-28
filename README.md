@@ -67,4 +67,10 @@ So I create the script to aid my works.
     python3 domify.py problems
    ```
    You can also run the script using `Py`. But the main thing is, you should run it with Python interpreter that supports Python3.
-6. After that, the script will generate `package/` folder inside the tcframe directory. Inside that folder, you will find the domjudge problem package directory already has already been made just for you ❤️
+6. Then, input all necessary data for your problem, such as
+   - problem's name
+   - problem's code
+   - time limit (in second)
+   - memory limit (in kb)
+   - problem's color
+7. After that, the script will generate `package/` folder inside the tcframe directory. Inside that folder, you will find the domjudge problem package directory already has already been made just for you ❤️
