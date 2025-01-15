@@ -16,21 +16,59 @@ problem_data = {
     "code": "A",
     "timelimit": "",
     "memorylimit": "",
+    "problem": "problem.pdf",
     "color": "#FFFFFF",
 }
+
 
 def startMessage(message):
     print(Fore.YELLOW + "START: " + Style.RESET_ALL + message)
 
+
 def successMessage(message):
     print(Fore.GREEN + "SUCCESS: " + Style.RESET_ALL + message + "\n")
+
 
 def fileCreatedMessage(title):
     print(Fore.BLUE + "CREATED: " + Style.RESET_ALL + title)
 
+
 def errorAndTerminate(warning):
     print(Fore.RED + warning + Style.RESET_ALL)
     exit(0)
+
+
+def initialize():
+    """
+    Initialize everything
+        problem_data, etc
+    """
+    global path, package_path, problem_data
+
+    startMessage("Input Problem Data")
+    name = input("Enter problem name       : ")
+    code = input("Enter problem code       : ")
+    timelimit = input("Enter timelimit (s)      : ")
+    memorylimit = input("Enter memorylimit (kb)   : ")
+    problem = input("Enter problem file (.pdf): ")
+    color = input("Enter color (#HEX)       : ")
+
+    if not bool(name):
+        errorAndTerminate("Problem must have a name")
+
+    problem_data = {
+        "name": name if bool(name) else problem_data["name"],
+        "code": code if bool(code) else problem_data["code"],
+        "timelimit": timelimit if bool(timelimit) else problem_data["timelimit"],
+        "memorylimit": memorylimit if bool(memorylimit) else problem_data["memorylimit"],
+        "color": color if bool(color) else problem_data["color"],
+        "problem": problem + '.pdf' if bool(problem) else problem_data["problem"],
+    }
+
+    required_file.append(problem_data["problem"])
+
+    successMessage("Initializing data")
+
 
 def checkAvailability():
     # Creating path, and package_path
@@ -46,7 +84,7 @@ def checkAvailability():
         if splitter_item in sys.argv[1]:
             splitter = splitter_item
             break
-    
+
     path_argument = sys.argv[1].split(splitter)
     path = os.getcwd()
     for item in path_argument:
@@ -57,13 +95,14 @@ def checkAvailability():
 
     for file in required_file:
         if file not in list_file:
-            errorAndTerminate(f"{file} file is not available in {sys.argv[1]}!")
-    
+            errorAndTerminate(
+                f"{file} file is not available in {sys.argv[1]}!")
+
     # Checking testcase validity
     list_testcases = os.listdir(os.path.join(path, "tc"))
     if len(list_testcases) % 2 == 1:
         errorAndTerminate("There are only odd numbers of files")
-    
+
     for testcase in list_testcases:
         old_name = testcase.split('_')
         is_sample = ("sample" in old_name)
@@ -80,37 +119,13 @@ def checkAvailability():
         new_name = '_'.join(map(str, new_name))
         old_name = '_'.join(map(str, old_name))
 
-        is_out and os.rename(os.path.join(path, "tc", old_name), os.path.join(path, "tc", new_name))
-        
+        is_out and os.rename(os.path.join(path, "tc", old_name),
+                             os.path.join(path, "tc", new_name))
+
         if is_sample:
             sample_testcases.append(new_name)
         else:
             testcases.append(new_name)
-
-def initialize():
-    """
-    Initialize everything
-        problem_data, etc
-    """
-    global path, package_path, problem_data
-
-    startMessage("Input Problem Data")
-    name        = input("Enter problem name    : ")
-    code        = input("Enter problem code    : ")
-    timelimit   = input("Enter timelimit (s)   : ")
-    memorylimit = input("Enter memorylimit (kb): ")
-    color       = input("Enter color (#HEX)    : ")
-
-    if not bool(name):
-        errorAndTerminate("Problem must have a name")
-
-    problem_data = {
-        "name": name if bool(name) else problem_data["name"],
-        "code": code if bool(code) else problem_data["code"],
-        "timelimit": timelimit if bool(timelimit) else problem_data["timelimit"],
-        "memorylimit": memorylimit if bool(memorylimit) else problem_data["memorylimit"],
-        "color": color if bool(color) else problem_data["color"],
-    }
 
     # Hapus folder package kalo ada
     if os.path.exists(package_path):
@@ -119,14 +134,13 @@ def initialize():
     # Bikin folder package
     os.mkdir(package_path)
 
-    successMessage("Initializing data")
 
 def createIniFile():
     """
     Create domjudge-problem.ini file
     """
     startMessage("creating domjudge-problem.ini file")
-    
+
     global problem_data
     text = ""
 
@@ -135,11 +149,11 @@ def createIniFile():
             return f"{arg}=\'{problem_data.get(arg)}\'\n"
         else:
             return ""
-    
+
     text = text + add_argument("timelimit")
     text = text + add_argument("memorylimit")
     text = text + add_argument("color")
-    
+
     with open(os.path.join(package_path, "domjudge-problem.ini"), "w") as file:
         file.write(text)
 
@@ -148,6 +162,7 @@ def createIniFile():
     print(text[:-1:])
     print("=====================")
     successMessage("domjudge-problem.ini file has been created successfully!")
+
 
 def createProblemYaml():
     """
@@ -162,17 +177,30 @@ def createProblemYaml():
             return f"{arg}: \"{problem_data.get(arg)}\"\n"
         else:
             return ""
-    
+
     text = text + add_argument("name")
-    
+
     with open(os.path.join(package_path, "problem.yaml"), "w") as file:
         file.write(text)
-    
+
     fileCreatedMessage("problem.yaml")
     print("=====================")
     print(text[:-1:])
     print("=====================")
     successMessage("problem.yaml file has been created successfully!")
+
+
+def moveProblemFile():
+    """
+    Moving problem file
+    """
+    startMessage("Copying problem file")
+    shutil.copy(os.path.join(path, problem_data["problem"]), os.path.join(
+        package_path, "problem.pdf"))
+    fileCreatedMessage("problem.pdf")
+    print(f"/{problem_data["problem"]} -> /package/problem.pdf")
+    successMessage("finish moving problem file")
+
 
 def generateTestCase():
     """
@@ -196,7 +224,7 @@ def generateTestCase():
         dest = os.path.join(path, "package", "data", "sample", test)
         shutil.move(src, dest)
         print(" ", test)
-    
+
     # Moving testcases
     if len(sample_testcases):
         print("\n[ SECRET TEST CASES ]")
@@ -206,15 +234,18 @@ def generateTestCase():
         dest = os.path.join(path, "package", "data", "secret", test)
         shutil.move(src, dest)
         print(" ", test)
-    
+
     # delete /tc
     shutil.rmtree(os.path.join(path, "tc"))
     successMessage("finish moving all testcase files")
 
-checkAvailability()
+
 initialize()
+checkAvailability()
 createIniFile()
 createProblemYaml()
+moveProblemFile()
 generateTestCase()
 
-print(Fore.GREEN + "FINISH: " + Style.RESET_ALL + "Your domjudge package is ready")
+print(Fore.GREEN + "FINISH: " + Style.RESET_ALL +
+      "Your domjudge package is ready")

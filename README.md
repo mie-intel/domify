@@ -51,7 +51,11 @@ So I create the script to aid my works.
 ## Prerequisites
 
 1. Python 3 (as simple as that)
-2. A complete Tcframe folder to convert (it must have the same directory structure as above)
+2. Colorama package for coloring the output. It can be installed using
+   ```
+   pip install colorama
+   ```
+3. A complete Tcframe folder to convert (it must have the same directory structure as above)
 
 ## How to use it?
 
@@ -73,5 +77,6 @@ So I create the script to aid my works.
    - problem's code
    - time limit (in second)
    - memory limit (in kb)
+   - problem file (without .pdf) [we only support pdf file]
    - problem's color
 7. After that, the script will generate `package/` folder inside the tcframe directory. Inside that folder, you will find the domjudge problem package directory already has already been made just for you ❤️
