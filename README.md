@@ -14,6 +14,7 @@ Domify is a python script used to convert Tcframe (by IA TOKI) Problem Package F
         ...
         <problem-name>_sample_x.in
         <problem-name>_sample_x.out
+    problem.pdf
     spec.cpp
     solution.cpp
     scorer.cpp (optional)
